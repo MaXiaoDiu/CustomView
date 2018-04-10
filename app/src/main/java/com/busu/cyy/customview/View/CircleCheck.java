@@ -1,4 +1,4 @@
-package com.busu.cyy.customview.Activity;
+package com.busu.cyy.customview.View;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
