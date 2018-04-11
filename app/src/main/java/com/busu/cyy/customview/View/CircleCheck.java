@@ -41,10 +41,11 @@ public class CircleCheck extends View {
     private int mDegree;
     private int mAngle;
     private int strokWidth;
+    private int scaleValue;
 
     ValueAnimator loadingAnimator;
     ValueAnimator DrawCircleAnimator;
-
+    ValueAnimator StartScaleAnimator;
     private boolean STATE_SUCCESS = false;
     private boolean START_SCALE = false;
 
@@ -148,7 +149,7 @@ public class CircleCheck extends View {
         if (START_SCALE)
         {
             //开始缩小
-            canvas.drawCircle(200,150,110,mWhiteStrokPaint);
+            canvas.drawCircle(200,150,120-scaleValue,mWhiteStrokPaint);
             canvas.drawText("Ok",200,163,mTextPaint);
         }
     }
@@ -223,7 +224,7 @@ public class CircleCheck extends View {
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                    START_SCALE = true;//开始缩小
+                    StartScaleAnimator.start();
                     invalidate();
             }
 
@@ -239,6 +240,19 @@ public class CircleCheck extends View {
         });
         DrawCircleAnimator.setDuration(1000);
         DrawCircleAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        //画个圆
+        StartScaleAnimator  = ValueAnimator.ofInt(0,10);
+        StartScaleAnimator .addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                START_SCALE = true;//开始缩小,开启一个动画
+                scaleValue = (Integer) valueAnimator.getAnimatedValue();
+                invalidate();
+            }
+        });
+        StartScaleAnimator .setDuration(500);
+        StartScaleAnimator .setInterpolator(new AccelerateDecelerateInterpolator());
+
     }
 
     /**
