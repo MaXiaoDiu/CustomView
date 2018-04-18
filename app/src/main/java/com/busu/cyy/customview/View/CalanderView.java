@@ -30,7 +30,10 @@ public class CalanderView extends View {
     Paint hollowCircle;
 
     private int width;
-    private String date_text = "2018年3月";
+    private int inityear = Integer.parseInt(DateUtil.getSysYear());
+    private int initmonth = DateUtil.getCurrentMonth();
+
+    private String date_text = inityear+"年"+initmonth+"月";
 
 
     private int TITLERECTHEIGHT = 150;
@@ -111,12 +114,12 @@ public class CalanderView extends View {
         int IRow =0;
         int ICol =0;
         //计算绘制几行数据
-        for (int i=1;i<=DateUtil.GetDayOfMonth();i++)
+        for (int i=1;i<=DateUtil.getMonthDays(Integer.parseInt(DateUtil.getSysYear()),DateUtil.getCurrentMonth());i++)
         {
-            ICol = (i+DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())-1)%7;
-            IRow = (i+DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())-1)/7;
+            ICol = (i+DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())-1)%7;
+            IRow = (i+DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())-1)/7;
             //绘制
-            if (DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())==7)
+            if (DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())==7)
             {
 
                 canvas.drawText(i+"",WEEKWIDTH*ICol+WEEKWIDTH/2,TITLERECTHEIGHT*IRow+TITLERECTHEIGHT/2+TITLERECTHEIGHT,weektitlepaint);
