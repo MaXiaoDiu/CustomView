@@ -14,6 +14,8 @@ import android.view.View;
 import com.busu.cyy.customview.R;
 import com.busu.cyy.customview.Util.DateUtil;
 
+import java.util.Calendar;
+
 /**
  * Created by Cyy513 on 2018/4/17.
  */
@@ -108,52 +110,23 @@ public class CalanderView extends View {
 
         int IRow =0;
         int ICol =0;
-        int TotalCount=0;
         //计算绘制几行数据
         for (int i=1;i<=DateUtil.GetDayOfMonth();i++)
         {
-            Rect rect = new Rect();
-            weektitlepaint.getTextBounds(i+"",0,1,rect);
-            //判断i是第几行第几个数据
-            int ExtraCount = 7-DateUtil.GetDayOfWeek();
-            if (i<=ExtraCount)
+            ICol = (i+DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())-1)%7;
+            IRow = (i+DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())-1)/7;
+            //绘制
+            if (DateUtil.getFirstDayWeek(2018,DateUtil.GetCurrentMonth())==7)
             {
-                IRow = 0;
-                ICol = DateUtil.GetDayOfWeek()+i-1;
-                //判断i,是否是今天
-                //绘制
-                canvas.drawText(i+"",WEEKWIDTH*(ICol+1)-WEEKWIDTH/2,TITLERECTHEIGHT*(IRow+3),weektitlepaint);
+
+                canvas.drawText(i+"",WEEKWIDTH*ICol+WEEKWIDTH/2,TITLERECTHEIGHT*IRow+TITLERECTHEIGHT/2+TITLERECTHEIGHT,weektitlepaint);
 
             }else {
 
-                IsToday(i);
-                if (i-(7-DateUtil.GetDayOfWeek())==1)
-                {
-                    //就是第一行,第一个数,存大行数
-                    TotalCount = i+7;
-                }
-                IRow = i/(TotalCount+((i/TotalCount)*7))+i/TotalCount+1;
-                //算出每一行的第一个数是多少
-                int firstnum = ExtraCount+1+(IRow-1)*7;
-                ICol = i-firstnum+1;
-                //绘制
-                canvas.drawText(i+"",WEEKWIDTH*ICol-WEEKWIDTH/2,TITLERECTHEIGHT*(IRow+3),weektitlepaint);
+                canvas.drawText(i+"",WEEKWIDTH*ICol+WEEKWIDTH/2,TITLERECTHEIGHT*IRow+TITLERECTHEIGHT/2+TITLERECTHEIGHT*2,weektitlepaint);
             }
-
         }
-    }
 
-    //判断是否为今天
-    private boolean IsToday(int i) {
-
-        if (i==DateUtil.GetCurrentDay())
-        {
-            return true;
-
-        }else {
-
-            return false;
-        }
     }
 
     //绘制星期数
@@ -162,7 +135,7 @@ public class CalanderView extends View {
         for (int i=0;i<weeks.length;i++)
         {
             weektitlepaint.getTextBounds(weeks[i],0,1,rect);
-            canvas.drawText(weeks[i],(WEEKWIDTH/2+i*WEEKWIDTH)-rect.width()/2,TITLERECTHEIGHT*2-30,weektitlepaint);
+            canvas.drawText(weeks[i],(WEEKWIDTH/2+i*WEEKWIDTH),TITLERECTHEIGHT*2-TITLEPO+30,weektitlepaint);
         }
     }
 
@@ -170,7 +143,7 @@ public class CalanderView extends View {
     private void DrawText(Canvas canvas, String date_text) {
         Rect rect = new Rect();
         titletxtpaint.getTextBounds(date_text,0,1,rect);
-        canvas.drawText(date_text,width/2-rect.width()/2,TITLEPO+rect.height()/2,titletxtpaint);
+        canvas.drawText(date_text,width/2,TITLEPO+rect.height()/2,titletxtpaint);
     }
 
     private void DrawTitle(Canvas canvas) {
