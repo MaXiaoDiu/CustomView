@@ -1,5 +1,6 @@
 package com.busu.cyy.customview.View;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.busu.cyy.customview.R;
 import com.busu.cyy.customview.Util.DateUtil;
@@ -22,7 +24,7 @@ import java.util.Calendar;
  * Created by Cyy513 on 2018/4/17.
  */
 
-public class CalanderView extends View implements GestureDetector.OnGestureListener {
+public class CalanderView extends View {
 
 
     Paint mpaint;
@@ -45,8 +47,16 @@ public class CalanderView extends View implements GestureDetector.OnGestureListe
 
     private String[] weeks ={"日","一","二","三","四","五","六"};
 
-    private GestureDetector gestureDetector;
-    private int verticalMinDistance = 20;
+    //用到的动画
+    private ValueAnimator PreMonthAnimator;//滑到上一个月的动画
+    private ValueAnimator NextMonthAnimator;//滑到下一个月的动画
+
+
+    private int lastX;
+    private int offsetX;//偏移量
+
+
+    RelativeLayout.LayoutParams layoutParams;
 
     public CalanderView(Context context) {
         super(context);
@@ -56,8 +66,6 @@ public class CalanderView extends View implements GestureDetector.OnGestureListe
 
     //初始化
     private void init(Context context) {
-
-        gestureDetector = new GestureDetector(context, this);
 
         mpaint = new Paint();
         mpaint.setColor(getResources().getColor(R.color.calender));
@@ -167,68 +175,66 @@ public class CalanderView extends View implements GestureDetector.OnGestureListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        this.gestureDetector.onTouchEvent(event);
-        return true;
-    }
 
-    /**
-     * 手势监听
-     * @param e
-     * @return
-     */
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
 
-    @Override
-    public void onShowPress(MotionEvent e) {
+            case MotionEvent.ACTION_DOWN:
+                //记录触摸点的坐标
+                lastX = x;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //计算偏移量
+                offsetX = x - lastX;
+                //在当前left,top,right,bottom的基础上加上偏移量
+                layout(getLeft() + offsetX, getTop(), getRight()+offsetX , getBottom());
+                break;
+            case MotionEvent.ACTION_UP:
 
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        if (distanceX < -verticalMinDistance) {
-
-            //向右
-            PreMonth();
-
-        } else if (distanceX > verticalMinDistance){
-
-            //向左
-            NextMonth();
-
-        }else if (distanceY <- verticalMinDistance) {
-
-            //向下
-
-
-        } else if (distanceY > verticalMinDistance ) {
-
-            //向上
+                if (offsetX>-20)
+                {
+                    PreMonth();
+                }
+                break;
 
         }
         return true;
     }
 
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
-    }
-
     //向右滑,上一个月
 
-    public void PreMonth()
+    private void PreMonth()
+    {
+        //添加动画
+
+
+    }
+
+    //向左滑,下一个月
+
+    private void NextMonth()
+    {
+
+    }
+
+    //月份或年增加
+
+    private void AddMonth()
+    {
+        if (initmonth == 12)
+        {
+            initmonth = 1;
+            inityear++;
+            invalidate();
+        }else {
+            initmonth++;
+            invalidate();
+        }
+    }
+
+    //月份或年份减少
+    private void SubMonth()
     {
         if (initmonth==1)
         {
@@ -239,21 +245,6 @@ public class CalanderView extends View implements GestureDetector.OnGestureListe
         }else {
 
             initmonth--;
-            invalidate();
-        }
-    }
-
-    //向左滑,下一个月
-
-    public void NextMonth()
-    {
-        if (initmonth == 12)
-        {
-            initmonth = 1;
-            inityear++;
-            invalidate();
-        }else {
-            initmonth++;
             invalidate();
         }
     }
