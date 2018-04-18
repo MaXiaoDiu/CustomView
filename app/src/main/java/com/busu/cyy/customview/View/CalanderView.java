@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.busu.cyy.customview.R;
@@ -20,7 +22,7 @@ import java.util.Calendar;
  * Created by Cyy513 on 2018/4/17.
  */
 
-public class CalanderView extends View {
+public class CalanderView extends View implements GestureDetector.OnGestureListener {
 
 
     Paint mpaint;
@@ -33,7 +35,7 @@ public class CalanderView extends View {
     private int inityear = Integer.parseInt(DateUtil.getSysYear());
     private int initmonth = DateUtil.getCurrentMonth();
 
-    private String date_text = inityear+"年"+initmonth+"月";
+    private String date_text;
 
 
     private int TITLERECTHEIGHT = 150;
@@ -42,13 +44,20 @@ public class CalanderView extends View {
     private int WEEKWIDTH;
 
     private String[] weeks ={"日","一","二","三","四","五","六"};
+
+    private GestureDetector gestureDetector;
+    private int verticalMinDistance = 20;
+
     public CalanderView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
+
     //初始化
-    private void init() {
+    private void init(Context context) {
+
+        gestureDetector = new GestureDetector(context, this);
 
         mpaint = new Paint();
         mpaint.setColor(getResources().getColor(R.color.calender));
@@ -78,12 +87,12 @@ public class CalanderView extends View {
 
     public CalanderView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public CalanderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
 
@@ -98,7 +107,7 @@ public class CalanderView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        date_text= inityear+"年"+initmonth+"月";
         //绘制Title
         DrawTitle(canvas);
         //绘制日期
@@ -114,12 +123,12 @@ public class CalanderView extends View {
         int IRow =0;
         int ICol =0;
         //计算绘制几行数据
-        for (int i=1;i<=DateUtil.getMonthDays(Integer.parseInt(DateUtil.getSysYear()),DateUtil.getCurrentMonth());i++)
+        for (int i=1;i<=DateUtil.getMonthDays(inityear,initmonth);i++)
         {
-            ICol = (i+DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())-1)%7;
-            IRow = (i+DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())-1)/7;
+            ICol = (i+DateUtil.getFirstDayWeek(inityear,initmonth)-1)%7;
+            IRow = (i+DateUtil.getFirstDayWeek(inityear,initmonth)-1)/7;
             //绘制
-            if (DateUtil.getFirstDayWeek(2018,DateUtil.getCurrentMonth())==7)
+            if (DateUtil.getFirstDayWeek(inityear,initmonth)==7)
             {
 
                 canvas.drawText(i+"",WEEKWIDTH*ICol+WEEKWIDTH/2,TITLERECTHEIGHT*IRow+TITLERECTHEIGHT/2+TITLERECTHEIGHT,weektitlepaint);
@@ -154,4 +163,99 @@ public class CalanderView extends View {
         RectF rectF = new RectF(0,0,width,TITLERECTHEIGHT);
         canvas.drawRect(rectF,mpaint);
     }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.gestureDetector.onTouchEvent(event);
+        return true;
+    }
+
+    /**
+     * 手势监听
+     * @param e
+     * @return
+     */
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        if (distanceX < -verticalMinDistance) {
+
+            //向右
+            PreMonth();
+
+        } else if (distanceX > verticalMinDistance){
+
+            //向左
+            NextMonth();
+
+        }else if (distanceY <- verticalMinDistance) {
+
+            //向下
+
+
+        } else if (distanceY > verticalMinDistance ) {
+
+            //向上
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
+    }
+
+    //向右滑,上一个月
+
+    public void PreMonth()
+    {
+        if (initmonth==1)
+        {
+            initmonth =12;
+            inityear--;
+            invalidate();
+
+        }else {
+
+            initmonth--;
+            invalidate();
+        }
+    }
+
+    //向左滑,下一个月
+
+    public void NextMonth()
+    {
+        if (initmonth == 12)
+        {
+            initmonth = 1;
+            inityear++;
+            invalidate();
+        }else {
+            initmonth++;
+            invalidate();
+        }
+    }
+
 }
