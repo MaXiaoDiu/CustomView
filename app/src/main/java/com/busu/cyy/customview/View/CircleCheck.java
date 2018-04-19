@@ -94,7 +94,6 @@ public class CircleCheck extends View {
         //按钮文字
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setColor(btnTextColor);
         mTextPaint.setFakeBoldText(true);
         mTextPaint.setTextSize(40);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
@@ -133,6 +132,7 @@ public class CircleCheck extends View {
         super.onDraw(canvas);
         mPath.reset();
         mPath.addArc(mArcRectF,270+mAngle,360-mAngle);
+        mTextPaint.setColor(Color.RED);
         if(mAngle != 0){
             mMatrix.setRotate(mDegree,200,150);
             mPath.transform(mMatrix);
@@ -150,7 +150,8 @@ public class CircleCheck extends View {
         {
             //开始缩小
             canvas.drawCircle(200,150,120-scaleValue,mWhiteStrokPaint);
-            canvas.drawText("Ok",200,163,mTextPaint);
+            mTextPaint.setColor(btncolor);
+            canvas.drawText("√",200,163,mTextPaint);
         }
     }
 

@@ -7,10 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.busu.cyy.customview.Activity.CalenderActivity">
 
-    <com.busu.cyy.customview.View.CalanderView
+    <RelativeLayout
+        android:id="@+id/mycalenderview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.busu.cyy.customview.View.CalanderView>
+    </RelativeLayout>
 
 </RelativeLayout>
