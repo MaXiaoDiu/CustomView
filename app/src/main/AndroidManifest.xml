@@ -16,9 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.BaseActivity" />
-        <activity android:name=".Activity.CalenderActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Activity.CalenderActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

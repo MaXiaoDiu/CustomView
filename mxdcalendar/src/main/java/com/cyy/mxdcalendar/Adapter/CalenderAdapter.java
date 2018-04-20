@@ -1,10 +1,10 @@
-package com.busu.cyy.customview.Adapter;
+package com.cyy.mxdcalendar.Adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.busu.cyy.customview.View.CalanderView;
+import com.cyy.mxdcalendar.View.CalanderView;
 
 import java.util.List;
 

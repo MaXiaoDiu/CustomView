@@ -1,4 +1,4 @@
-package com.busu.cyy.customview.View;
+package com.cyy.mxdcalendar.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CalendarView;
 
 import com.busu.cyy.customview.Entity.DateModel;
 import com.busu.cyy.customview.R;

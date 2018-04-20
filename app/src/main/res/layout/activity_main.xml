@@ -5,42 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/DarkBlue"
     tools:context="com.busu.cyy.customview.Activity.MainActivity">
-
-
-   <Button
-       android:id="@+id/btn_Success"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignLeft="@+id/ral_mycirclecheck"
-       android:layout_alignParentTop="true"
-       android:layout_alignStart="@+id/ral_mycirclecheck"
-       android:layout_marginTop="17dp"
-       android:text="Success" />
-
-   <RelativeLayout
-       android:id="@+id/ral_mycirclecheck"
-       android:layout_width="300dp"
-       android:layout_height="300dp"
-       android:layout_alignParentLeft="true"
-       android:layout_alignParentStart="true"
-       android:layout_below="@+id/btn_Success">
-
-      <com.busu.cyy.customview.View.CircleCheck
-          android:id="@+id/mycirclecheck"
-          android:layout_width="200dp"
-          android:layout_height="200dp"
-          android:layout_alignParentLeft="true"
-          android:layout_alignParentStart="true"
-          android:layout_centerVertical="true" />
-   </RelativeLayout>
 
    <Button
        android:id="@+id/btn_calender"
-       android:layout_width="wrap_content"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_alignEnd="@+id/ral_mycirclecheck"
-       android:layout_alignRight="@+id/ral_mycirclecheck"
-       android:layout_alignTop="@+id/btn_Success"
-       android:text="Calender" />
+       android:background="@color/red"
+       android:textColor="@color/white"
+       android:text="日历" />
+
 </RelativeLayout>

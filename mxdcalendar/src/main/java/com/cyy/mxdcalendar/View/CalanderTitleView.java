@@ -1,4 +1,4 @@
-package com.busu.cyy.customview.View;
+package com.cyy.mxdcalendar.View;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,8 +11,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.busu.cyy.customview.Listener.CalenderTitleOnClickListener;
-import com.busu.cyy.customview.R;
+import com.cyy.mxdcalendar.Listener.CalenderTitleOnClickListener;
+import com.cyy.mxdcalendar.R;
 
 /**
  * Created by Cyy513 on 2018/4/19.
